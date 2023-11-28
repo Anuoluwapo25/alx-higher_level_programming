@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+
+"""
+Module: 1-rectangle
+a class Rectangle that defines a rectangle
+raises exception if width and height is not int
+"""
+
 class Rectangle:
     def __init__(self, width=0, height=0):
         self._width = 0  
