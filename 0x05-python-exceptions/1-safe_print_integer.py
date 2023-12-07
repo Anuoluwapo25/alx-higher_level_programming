@@ -7,6 +7,6 @@ def safe_print_integer(value):
         else:
             return False
 
-    except TypeError:
+    except (ValueError, TypeError):
         print("The value is not interger")
         return False
