@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 def safe_print_integer(value):
     try:
-        if isinstance(value, int):
-            print("{}".format(value))
-            return True
-        else:
-            return False
+        print("{:d}".format(value))
+        return True
 
     except (ValueError, TypeError):
         print("The value is not interger")
