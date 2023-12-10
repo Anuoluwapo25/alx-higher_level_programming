@@ -1,5 +1,11 @@
 #!/usr/bin/python3
+"""module that demonstrate a private instance attribute"""
+
 class Square:
+    """
+    class that defines private instance attribute
+    public instance
+    """
     def __init__(self, size=0):
         self.size = size
 
