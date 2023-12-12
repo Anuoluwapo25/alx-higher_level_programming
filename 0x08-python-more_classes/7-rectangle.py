@@ -1,5 +1,11 @@
 #!/usr/bin/python3
+"""module that defines a rectangle"""
+
 class Rectangle:
+    """
+    defines a rectangle private instance
+    """
+
     number_of_instances = 0
     print_symbol = "#"
 

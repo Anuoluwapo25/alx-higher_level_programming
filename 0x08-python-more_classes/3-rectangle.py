@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+"""A class that defines a rectangle by private instance attribute width and height"""
+
 class Rectangle:
+    """ defines a rectangle"""
     def __init__(self, width=0, height=0):
         self._width = 0 
         self._height = 0

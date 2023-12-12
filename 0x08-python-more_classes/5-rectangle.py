@@ -6,6 +6,8 @@ a class Rectangle that defines a rectangle
 raises exception if width and height is not int
 """
 class Rectangle:
+    """ defines a rectangle and raises an exception"""
+
     def __init__(self, width=0, height=0):
         self._width = 0  
         self._height = 0
