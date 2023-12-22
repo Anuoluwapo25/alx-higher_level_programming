@@ -1,6 +1,8 @@
 #!/usr/bin/python3
+
 """
-module that append
+module
+that append
 """
 
 def append_after(filename="", search_string="", new_string=""):
