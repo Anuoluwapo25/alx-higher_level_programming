@@ -1,42 +1,33 @@
-def text_indentation(text):
+#!/usr/bin/python3
 """
-    Print text with 2 new lines after each of these characters: ., ? and :
+Unittest for max_integer
+"""
 
-    :param text: A string to be formatted
-    :type text: str
-    :raises TypeError: If the input is not a string
+import unittest
+max_integer = __import__('6-max_integer').max_integer
 
-    Examples:
-    >>> text_indentation("This is a sample text. It has some sentences? Yes, it does: three of them.")
-    This is a sample text
-    It has some sentences
-    Yes, it does
-    three of them
 
-    >>> text_indentation("Another example: This one ends with a colon:")
-    Another example
-    This one ends with a colon
-
-    >>> text_indentation("No special characters here")
-    No special characters here
+class TestMax(unittest.TestCase):
     """
+    test python3 -m unittest -v tests.6-max_integer_test
+    """
+    def test_empty_list(self):
+        self.assertIsNone(max_integer([]))
 
-    if not isinstance(text, str):
-        raise TypeError("text must be a string")
+    def test_positive_numbers(self):
+        self.assertEqual(max_integer([1, 3, 5, 2, 4]), 5)
 
-    newline_chars = ['.', '?', ':']
-    current_line = ""
+    def test_negative_numbers(self):
+        self.assertEqual(max_integer([-1, -3, -5, -2, -4]), -1)
 
-    for char in text:
-        current_line += char
-        if char in newline_chars:
-            print(current_line.strip())
-            current_line = ""
+    def test_mixed_numbers(self):
+        self.assertEqual(max_integer([1, -3, 5, -2, 4]), 5)
 
-    if current_line:
-        print(current_line.strip())
+    def test_duplicate_max(self):
+        self.assertEqual(max_integer([1, 3, 5, 5, 4]), 5)
 
-# Run the doctests
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
+    def test_single_element(self):
+        self.assertEqual(max_integer([42]), 42)
+
+if __name__ == '__main__':
+    unittest.main()
