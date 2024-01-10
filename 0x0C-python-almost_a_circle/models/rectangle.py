@@ -80,6 +80,18 @@ class Rectangle(Base):
 
     def update(self, *args):
         """method that updates class Rectangle"""
+        if (args is None or len(args) == 0) and kwargs is not None:
+            for key, value in kwargs.items():
+                if key == "id":
+                    self.__id = value
+                elif key == "width":
+                    self.__width = value
+                elif key == "height":
+                    self.__height = value
+                elif key == "x":
+                    self.__x = value
+                elif key == "y":
+                    self.__y == value
         if len(args) >= 1:
             self.id = args[0]
         if len(args) >= 2:
