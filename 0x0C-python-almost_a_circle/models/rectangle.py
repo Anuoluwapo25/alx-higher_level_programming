@@ -104,3 +104,6 @@ class Rectangle(Base):
                     self.__x = value
                 elif key == "y":
                     self.__y == value
+                else:
+                    msg = f"'{type(self).__name__}' has no attr '{key}'"
+                    raise TypeError(msg)
