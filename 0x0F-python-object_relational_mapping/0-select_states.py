@@ -18,5 +18,5 @@ if __name__ == "__main__":
     for rows in states:
         print(rows)
 
-        curobj.close()
-        mydata.close()
+    curobj.close()
+    mydata.close()
