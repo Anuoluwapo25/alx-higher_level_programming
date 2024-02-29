@@ -1,4 +1,5 @@
 #!/usr/bin/node
+// A Script that creates a class that defines a rect
 
 class Rectangle 
 {
@@ -8,3 +9,4 @@ class Rectangle
     }
 }
 
+module.exports = Rectangle;
