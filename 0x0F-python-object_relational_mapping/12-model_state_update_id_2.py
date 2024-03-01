@@ -1,30 +1,18 @@
 #!/usr/bin/python3
-
-"""
-name of a State object from the database hbtn_0e_6_usa
-takes 3 arguments: username, password and dbname and state to search
-imports State and Base from model_state
-connects to a MySQL server running on localhost at port 3306i
-update the name of the State where id = 2 to New Mexico
-"""
-
-
-from sys import argv
-from sqlalchemy.orm import sessionmaker
-from model_state import Base, State
+""" lists all State objects from the database hbtn_0e_6_usa"""
+from model_state import State
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import sys
 
+if __name__ == "__main__":
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'
+                           .format(sys.argv[1], sys.argv[2], sys.argv[3]),
+                           pool_pre_ping=True)
 
-if __name__ == '__main__':
-    user = argv[1]
-    passwd = argv[2]
-    dbName = argv[3]
-
-    conn = "mysql+mysqldb://{}:{}@localhost/{}"
-    engine = create_engine(conn.format(user, passwd, dbName))
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    queryData = session.query(State).filter_by(id=2).first()
-    queryData.name = "New Mexico"
+    state = session.query(State).get(2)
+    state.name = 'New Mexico'
     session.commit()

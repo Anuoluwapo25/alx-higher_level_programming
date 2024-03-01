@@ -25,9 +25,6 @@ if __name__ == '__main__':
                     JOIN `states` ON state_id=states.id\
                     WHERE states.name=(%s)\
                     ORDER BY cities.id", argv[4])
-    queryRows = cursor.fetchall()
-
-    for rows in queryRows:
-        print(rows, end=",")
-    cursor.close()
-    dBase.close()
+    print(", ".join(city[0] for city in cur.fetchall()))
+    cur.close()
+    db.close()
