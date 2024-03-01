@@ -1,49 +1,31 @@
 #!/usr/bin/python3
-"""module defines a script that lists objects
-from a given database"""
 
-# Import the model to use for the DB
-from model_state import Base, State
-from sqlalchemy import (create_engine)
+"""
+lists all State objects that contain the letter a from the database
+takes 3 arguments: mysql username, mysql password and database name
+imports State and Base from model_state
+connects to a MySQL server running on localhost at port 3306
+results sorted in ascending order by states.id
+"""
+
+
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import sys
+from model_state import Base, State
+from sys import argv
 
 
-def list_state_like_a_sql_alchemy_style(username, password, db_name):
-    """
-    lists all states in a database contains 'a'
-    using sqlalchemy method
+if __name__ == '__main__':
+    user = argv[1]
+    passwd = argv[2]
+    dbName = argv[3]
 
-    username (str): username of the given database
-    password (str): password of the given database
-    db_name (str): the database to use
-    """
-    # CREATE A CONNECTION
-    DB_URL = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-            username,
-            password,
-            db_name)
-
-    # CREATE AN ENGINE
-    engine = create_engine(DB_URL, pool_pre_ping=True)
-    # MIGRATE ORM to TABLE
-    Base.metadata.create_all(engine)
-
-    # CREATE SESSION FOR CRUD OPERATIONS
+    conn = "mysql+mysqldb://{}:{}@localhost:3306/{}"
+    engine = create_engine(conn.format(user, passwd, dbName))
     Session = sessionmaker(bind=engine)
-    session = Session()  # session instance
+    session = Session()
 
-    # Query to list ALL states that contains a (from both sides)
-    query = session.query(State).filter(State.name.like('%a%')).order_by(
-            State.id).all()
-
-    # PRINT results, state id and state name
-    for state in query:
-        print("{}: {}".format(state.id, state.name))
-
-    # close the session
-    session.close()
-
-
-if __name__ == "__main__":
-    list_state_like_a_sql_alchemy_style(sys.argv[1], sys.argv[2], sys.argv[3])
+    queryData = session.query(State).filter(
+            State.name.like('%a%')).order_by(State.id).all()
+    for data in queryData:
+        print("{}: {}".format(data.id, data.name))

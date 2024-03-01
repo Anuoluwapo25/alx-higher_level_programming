@@ -1,54 +1,33 @@
 #!/usr/bin/python3
-"""module defines a script that lists objects
-from an given database"""
 
-# import models State and Base (declarive_base)
-from model_state import Base, State
-from sqlalchemy import (create_engine)
+"""
+list the first State objects from the database hbtn_0e_6_usa
+takes 3 arguments: mysql username, mysql password and database name
+imports State and Base from model_state
+connects to a MySQL server running on localhost at port 3306
+results sorted in ascending order by states.id
+print Nothing if the table is empty
+"""
+
+
+from sys import argv
 from sqlalchemy.orm import sessionmaker
-import sys
+from model_state import Base, State
+from sqlalchemy import create_engine
 
 
-def list_first_state_obj_sql_alchemy_style(username, password, db_name):
-    """
-    lists first state object in database using sqlalchemy method
+if __name__ == '__main__':
+    user = argv[1]
+    passwd = argv[2]
+    dbName = argv[3]
 
-    username (str): username of the given database
-    password (str): password of the given database
-    db_name (str): the database to use
-    """
-
-    # CREATE  CONNECTION
-    DB_URL = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-            username,
-            password,
-            db_name)
-
-    # CREATE ENGINE
-    engine = create_engine(DB_URL, pool_pre_ping=True)
-    # MIGRATE TO DATABASE
-    Base.metadata.create_all(engine)
-
-    # CREATE A SESSION SO AS TO PERFORM CRUD OPERATIONS
+    conn = "mysql+mysqldb://{}:{}@localhost:3306/{}"
+    engine = create_engine(conn.format(user, passwd, dbName))
     Session = sessionmaker(bind=engine)
-    session = Session()  # session instance
+    session = Session()
 
-    # WRITE QUERIES
-    # so instead of using .all(), to list or select all, we use .first()
-    state_query = session.query(State).order_by(State.id).first()
-
-    # check if result is valid, like doesn't return null
-    if state_query:  # print the state id and name
-        print("{}: {}".format(state_query.id, state_query.name))
-    else:  # if nothing found, print nothing
+    queryData = session.query(State).order_by(State.id).first()
+    if queryData:
+        print("{}: {}".format(queryData.id, queryData.name))
+    else:
         print("Nothing")
-
-    # close the session
-    session.close()
-
-
-if __name__ == "__main__":
-    list_first_state_obj_sql_alchemy_style(
-            sys.argv[1],
-            sys.argv[2],
-            sys.argv[3])

@@ -1,57 +1,33 @@
 #!/usr/bin/python3
-"""module defines a script that list objects
-from a given database"""
 
-# import the model to map to DB
-from model_state import Base, State
-from sqlalchemy import (create_engine)
+"""
+prints the State object with the search name passed as argument
+takes 4 arguments: username, password and dbname and state to search
+connects to a MySQL server running on localhost at port 3306
+results sorted in ascending order by states.id
+print Not found if no state was found else print id
+"""
+
+
+from sys import argv
 from sqlalchemy.orm import sessionmaker
-import sys
+from model_state import Base, State
+from sqlalchemy import create_engine
 
 
-def state_obj_with_user_input(username, password, db_name, state_to_search):
-    """
-    lists states based on user input in a DB  using sqlalchemy method
+if __name__ == '__main__':
+    user = argv[1]
+    passwd = argv[2]
+    dbName = argv[3]
+    searchState = argv[4]
 
-    username (str): username of the given database
-    password (str): password of the given database
-    db_name (str): the database to use
-    """
-
-    # CREATE A CONNECTION
-    DB_URL = "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
-            username,
-            password,
-            db_name)
-
-    # CREATE ENGINE
-    engine = create_engine(DB_URL, pool_pre_ping=True)
-
-    # MIGRATE OBJECTS TO TABLE
-    Base.metadata.create_all(engine)
-
-    # CREATE SESSION FOR CRUD OPERATIONS
+    conn = "mysql+mysqldb://{}:{}@localhost/{}"
+    engine = create_engine(conn.format(user, passwd, dbName))
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    # QUERY to find state that macthes user_input
-    find_match = session.query(State).filter(
-            State.name == state_to_search).order_by(State.id).all()
-
-    # if there's a match
-    if find_match:  # print all the state id from the match
-        for state in find_match:
-            print("{}".format(state.id))
+    queryData = session.query(State).filter_by(name=searchState).first()
+    if queryData:
+        print("{}".format(queryData.id))
     else:
         print("Not found")
-
-    # close the session
-    session.close()
-
-
-if __name__ == "__main__":
-    state_obj_with_user_input(
-            sys.argv[1],
-            sys.argv[2],
-            sys.argv[3],
-            sys.argv[4])
