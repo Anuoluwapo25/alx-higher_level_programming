@@ -1,16 +1,16 @@
-
 #!/usr/bin/python3
-"""
-given the URL and email, print commits fron Github API
-"""
+"""Get commit using git API"""
+
 import requests
-from sys import argv
-
-
+import sys
 if __name__ == "__main__":
-    url = 'https://api.github.com/repos/{}/{}/commits'.format(argv[2], argv[1])
-    response = requests.get(url)
-    list_commits = response.json()
-    for commit in list_commits[0:10]:
-        print(commit.get('sha'), end=': ')
-        print(commit.get('commit').get('author').get('name'))
+    r = requests.get('https://api.github.com/repos/{}/{}/commits'
+                      .format(sys.argv[2], sys.argv[1]))
+    result = r.json()
+    try:
+        for i in range(10):
+            print("{}: {}".format(
+                  result[i].get("sha"),
+                  result[i].get("commit").get("author").get("name")))
+    except IndexError:
+        pass
