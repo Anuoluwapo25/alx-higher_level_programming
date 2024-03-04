@@ -4,8 +4,7 @@
 import requests
 import sys
 if __name__ == "__main__":
-    r = requests.get('https://api.github.com/repos/{}/{}/commits'
-                      .format(sys.argv[2], sys.argv[1]))
+    r = requests.get('https://api.github.com/repos/{}/{}/commits'.format(sys.argv[2], sys.argv[1]))
     result = r.json()
     try:
         for i in range(10):
