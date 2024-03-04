@@ -17,4 +17,3 @@ if __name__ == '__main__':
     with urllib.request.urlopen(httpRequest) as response:
         htmlBody = response.read()
         print(htmlBody.decode('utf-8'))
-
